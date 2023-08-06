@@ -1,10 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+
+import 'package:notification_course/second_screen.dart';
 import 'package:notification_course/services/local_notifications.dart';
 import 'package:notification_course/services/notification_controller.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,6 +26,15 @@ class _HomePageState extends State<HomePage> {
     });
     NotificationController.initializeNotificationsEventListeners();
     NotificationController.requestFirebaseToken();
+    navigate();
+  }
+
+  Future<void> navigate() async {
+    await Future.delayed(const Duration(seconds: 3));
+    if (context.mounted) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const SecondScreen()));
+    }
   }
 
   @override
@@ -52,12 +66,20 @@ class _HomePageState extends State<HomePage> {
               child: Text("Schedule Repeat"),
             ),
             const SizedBox(height: 5),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.add, size: 20.0),
+            ),
             ElevatedButton(
               onPressed: () =>
                   LocalNotifications.cancelScheduledNotification(10),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(200, 50),
+              ),
               child: const Text("Schedule Cancel"),
             ),
             const SizedBox(height: 5),
+
             ElevatedButton(
               onPressed: () =>
                   LocalNotifications.showActionButtonNotification(10),
@@ -119,4 +141,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 }

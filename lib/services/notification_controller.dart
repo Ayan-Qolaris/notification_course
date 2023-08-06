@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
-import 'package:clear_all_notifications/clear_all_notifications.dart';
 import 'package:eraser/eraser.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_course/main.dart';
 import 'package:notification_course/second_screen.dart';
 import 'package:notification_course/services/local_notifications.dart';
+import 'package:notification_course/third_screen.dart';
 
 class NotificationController extends ChangeNotifier {
   // SINGLETON PATTERN
@@ -78,8 +78,10 @@ class NotificationController extends ChangeNotifier {
 
     if (receivedAction.buttonKeyPressed == "ACCEPT") {
       log("Hirak da rocks");
-      navigatorKey.currentState
-          ?.push(MaterialPageRoute(builder: (context) => const SecondScreen()));
+
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(builder: (context) => const ThirdScreen()),
+      );
     }
 
     // if (receivedAction.channelKey == "chats") {

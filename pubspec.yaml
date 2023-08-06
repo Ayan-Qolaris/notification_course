@@ -16,6 +16,7 @@ dependencies:
   firebase_core: ^2.15.0
   flutter:
     sdk: flutter
+  flutter_background_service: ^3.0.1
   fluttertoast: ^8.2.2
   get_it: ^7.6.0
   just_audio: ^0.9.34
