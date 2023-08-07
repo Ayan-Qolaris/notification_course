@@ -15,10 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationController.initializeLocalNotifications(debug: true);
   await NotificationController.initializeRemoteNotifications(debug: true);
-  await getInitNotif();
+  bool acceptedNotification = await getInitNotif();
   // await initializeService();
   // await setupServiceLocator();
-  runApp(const MainApp());
+  runApp(
+      MainApp(acceptedNotification ? const ThirdScreen() : const HomePage()));
 }
 
 Future<void> initializeService() async {
@@ -69,24 +70,35 @@ Future<void> onStart(ServiceInstance service) async {
   // });
 }
 
-Future<void> getInitNotif() async {
+Future<bool> getInitNotif() async {
+  // ReceivedAction? receivedAction = await AwesomeNotifications()
+  //     .getInitialNotificationAction(removeFromActionEvents: true);
+  // if (receivedAction?.buttonKeyPressed == 'ACCEPT') {
+  //   // navigatorKey.currentState?.pop();
+  //   navigatorKey.currentState?.pushAndRemoveUntil(
+  //       MaterialPageRoute(builder: (context) => const ThirdScreen()),
+  //       (route) => false);
+  // }
+
   ReceivedAction? receivedAction = await AwesomeNotifications()
       .getInitialNotificationAction(removeFromActionEvents: true);
   if (receivedAction?.buttonKeyPressed == 'ACCEPT') {
-    // navigatorKey.currentState?.pop();
-    navigatorKey.currentState?.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const ThirdScreen()),
-        (route) => false);
+// navigatorKey.currentState?.pop();
+//navigatorKey.currentState?.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const ThirdScreen()), (route) => false);
+    return true;
   }
+  return false;
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp(this.startPage, {super.key});
+
+  final Widget startPage;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HomePage(),
+      home: startPage,
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
     );
